@@ -48,8 +48,10 @@ mu = 0.7;
 gamma = 0.4;
 epsilon = 0.1;
 trainingScenarios = 0;
-
 [states,actions]=size(R);
+Q=rand(states,actions)*.05;
+
+
 
 while trainingScenarios < 100,
     
@@ -61,30 +63,45 @@ while trainingScenarios < 100,
         
         indices=find(t(s,:));
         [nonuseful useful]=size(indices);
-        pickPolicy=randi(useful);
+        pickPolicy=randsample(useful,1);
         a=indices(1,pickPolicy);
+    else
+        [val indx]=max(Q(s,:));
+        a=indx;
        
     end
     
     %Search for the goal state 
-    while s ~= 5,
+    while s ~= 5
         
         %Obtain reward as it takes action a
-        reward=R[s,a];
+        reward=R(s,a);
         
         %Replace previous state with a
         newState=a;
         
         %Choose new action a with Epsilon-Greedy policy
-        if
+        if rand<epsilon
+            indices=find(t(newState,:));
+            [nonuseful useful]=size(indices);
+            pickPolicy=randsample(useful,1);
+            newAction=indices(1,pickPolicy);
+        else
+            [value ind]=max(Q(newState,:));
+            newAction=ind;
+       
         end %this function should give us newAction
         
         %Update the Q matrix/ the brain of our entity
-        Q(s,a) =+ mu*(r+gamma*Q(newState,newAction)-Q(s,a));
+        Q(s,a) = Q(s,a)+ mu*(reward+gamma*Q(newState,newAction)-Q(s,a));
         s=newState;
         a=newAction;
         
-        
+
     end
-    trainingScenarios =+ 1;
+   trainingScenarios = trainingScenarios + 1;
+   
 end
+
+Q
+s
