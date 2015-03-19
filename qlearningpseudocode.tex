@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage[hmargin=3cm]{geometry}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{boxedminipage}
+\begin{document}
+\begin{algorithm}
+  \caption{The Sarsa algorithm}
+  \label{alg:algoTournament}
+\begin{boxedminipage}{155mm}
+    \begin{algorithmic}[1]
+    
+    
+        \STATE INITIALISATION
+        \STATE Set Q(s,a) $\leftarrow$ small random values
+        \STATE{Set $\mu$ $\leftarrow$ a value between 0 and 1}
+        \STATE{Set $\gamma$ $\leftarrow$ a value between 0 and 1}
+        \STATE{Set $\epsilon$ $\leftarrow$ a value between 0 and 1}
+    \WHILE {trainingscenarios $<$ n}
+    \STATE{s $\leftarrow$ random state of all possible states}
+    \STATE{a $\leftarrow$ according to $\epsilon$-greedy policy}
+        \WHILE{s $=!$ goal state}
+        \STATE{Obtain r $\leftarrow$ according to s and a}
+        \STATE{Replace s' $\leftarrow$ a}
+        \STATE{Obtain a' $\leftarrow$ according to $\epsilon$-greedy using s'}
+        \STATE{Update Q(s,a) $\leftarrow$ Q(s,a)+ $\mu$ (r+ $\gamma$Q(s',a')-Q(s,a))}
+        \STATE{s $\leftarrow$ s'}
+        \STATE{a $\leftarrow$ a'}
+        \ENDWHILE
+        \STATE{n $\leftarrow$ n+1}
+    \ENDWHILE
+    \STATE Print Q(s,a)
+    \STATE Print s
+   \end{algorithmic}
+\end{boxedminipage}
+ \vskip17.5pt
+\end{algorithm}
+
+
+\end{document}
